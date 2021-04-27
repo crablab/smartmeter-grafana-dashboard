@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - 9000:9090
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - prometheus-data:/prometheus
+    command: --web.enable-lifecycle  --config.file=/etc/prometheus/prometheus.yml
+    restart: unless-stopped
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - 3000:3000
+    volumes:
+      - grafana-data:/var/lib/grafana
+    restart: unless-stopped
+  glowmarkt:
+    build: ./glowmarkt_scraper
+    environment:
+      - APP_ID=${APP_ID}
+      - USERNAME=${USERNAME}
+      - PASSWORD=${PASSWORD}
+    ports: 
+      - 5000:5000
+
+volumes:
+  prometheus-data:
+  grafana-data:
