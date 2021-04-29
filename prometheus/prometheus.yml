@@ -10,4 +10,4 @@ scrape_configs:
           - 'prometheus:9090'
   - job_name: smartmeter
     static_configs:
-    - targets: ['localhost:5000']
+    - targets: ['glowmarkt:5000']
